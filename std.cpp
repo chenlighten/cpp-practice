@@ -183,6 +183,7 @@ HasPtrRef &HasPtrRef::operator=(const HasPtrRef &hpr) {
 class Folder;
 class Message {
     friend class Folder;
+    friend void swap(Message &, Message &);
 public:
     explicit Message(const std::string &s):
         contents(s) {}
@@ -195,7 +196,7 @@ private:
     std::string contents;
     std::set<Folder *> folders;
     void add_to_Folders_of(const Message &);
-    void remove_from_Folders_of(const Message &);
+    void remove_from_Folders();
 };
 
 void Message::save(Folder &f) {
@@ -214,8 +215,8 @@ void Message::add_to_Folders_of(const Message &msg) {
     }
 }
 
-void Message::remove_from_Folders_of(const Message &msg) {
-    for (auto f : msg.folders) {
+void Message::remove_from_Folders() {
+    for (auto f : folders) {
         f->remMsg(this);
     }
 }
@@ -226,6 +227,31 @@ Message::Message(const Message &msg):
     add_to_Folders_of(msg);
 }
 
+Message::~Message() {
+    remove_from_Folders();
+}
+
+Message &Message::operator=(const Message &rhs) {
+    remove_from_Folders();
+    contents = rhs.contents;
+    folders = rhs.folders;
+    add_to_Folders_of(rhs);
+    return *this;
+}
+
+void swap(Message &lhs, Message &rhs) {
+    using std::swap;
+    for (auto f : lhs.folders)
+        f->remMsg(&lhs);
+    for (auto f:rhs.folders)
+        f->remMsg(&rhs);
+    swap(lhs.folders, rhs.folders);
+    swap(lhs.contents, rhs.contents);
+    for (auto f : lhs.folders)
+        f->addMsg(&lhs);
+    for (auto f : rhs.folders)
+        f->addMsg(&rhs);
+}
 
 class Folder {
 public:
