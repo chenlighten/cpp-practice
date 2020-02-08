@@ -22,13 +22,15 @@ public:
     // PersonInfo(): name("Chen"), phones(vector<string> {"666666"}) {}
     PersonInfo(const string &s = "Chen"): name(s), phones(vector<string> {"666666"}) {}
     PersonInfo(const string &s1, const string &s2): name(s1), phones(vector<string> {s2}) {}
+    // You can also use this:
+    // PersonInfo(const string &s1, const string &s2): name(s1), phones{s2} {}
 };
 
 class Group {
 public:
     vector<PersonInfo> persons;
     Group():persons(5){}
-    Group(PersonInfo pi): persons{pi}{}
+    Group(const PersonInfo &pi): persons{pi}{}
     void fst_prsn(void);
 };
 
@@ -503,6 +505,7 @@ void call_use_ref(void) {
 
 ostream &print(ostream &os, const string &s, char c) {
     os << s << c;
+    return os;
 }
 
 void use_bind(void) {
@@ -529,7 +532,7 @@ void stream_it(void) {
 int main(/*int argc, char **argv*/) {
     // try_speed(argc, argv);
     // try_init();
-    // try_PersonInfo();
+    try_PersonInfo();
     //
     // try_assign();
     // try_swap();
@@ -553,5 +556,5 @@ int main(/*int argc, char **argv*/) {
     // lambda_exp();
     // use_bind();
     // stream_it();
-    unique_len();
+    // unique_len();
 }

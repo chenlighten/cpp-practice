@@ -1,5 +1,5 @@
-std: std.cpp
-	g++ -g --std=c++11 std.cpp -o std
+std: std_1.cpp
+	g++ -g --std=c++11 std_1.cpp -o std
 
 run:
 	make && ./std
