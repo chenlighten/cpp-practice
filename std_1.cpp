@@ -67,7 +67,12 @@ void try_assign(void) {
     vector<PersonInfo> v0 {string("Mike"), string("Jack"), string("Chen")};
     vector<PersonInfo> v1 {string("Cat"), string("Dog"), string("Mouce"), string("Fish")};
     v1.assign(v0.begin(), v0.end());
+    v0.assign({string("Gates"), string("Jobs")});
     for (auto it = v1.begin(); it != v1.begin() + 2; it++) {
+        cout << it->name << endl;
+    }
+    cout << endl;
+    for (auto it = v0.begin(); it != v0.end(); ++it) {
         cout << it->name << endl;
     }
 }
@@ -532,9 +537,9 @@ void stream_it(void) {
 int main(/*int argc, char **argv*/) {
     // try_speed(argc, argv);
     // try_init();
-    try_PersonInfo();
+    // try_PersonInfo();
     //
-    // try_assign();
+    try_assign();
     // try_swap();
     // try_compare();
     // try_adding();
