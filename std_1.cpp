@@ -66,6 +66,7 @@ void try_array(void) {
 void try_assign(void) {
     vector<PersonInfo> v0 {string("Mike"), string("Jack"), string("Chen")};
     vector<PersonInfo> v1 {string("Cat"), string("Dog"), string("Mouce"), string("Fish")};
+    vector<PersonInfo> v2 {PersonInfo("Cat"), PersonInfo("Fish")};
     v1.assign(v0.begin(), v0.end());
     v0.assign({string("Gates"), string("Jobs")});
     for (auto it = v1.begin(); it != v1.begin() + 2; it++) {
@@ -386,22 +387,41 @@ void printString(const string &s) {
     cout << s << endl;
 }
 
+void try_back_inserter(void) {
+    vector<int> v;
+    auto it = back_inserter(v);
+    for (int i = 0; i != 5; ++i) {
+        *it = i;
+        // 有没有下面这行都是一样的。
+        ++it;
+    }
+    for (auto it = v.cbegin(); it != v.cend(); ++it) {
+        cout << *it;
+    }
+    cout << endl;
+}
+
 void replace(void) {
     vector<int> vec(10);
     // fill_n(vec.begin(), 10, 0);
     fill_n(back_inserter(vec), 10, 0);
+    // 以下这样是不行的
+    // fill(back_inserter(vec), back_inserter(vec) + 10, 0);
     for (size_t i = 0; i != vec.size(); i++) {
         cout << vec[i];
     }
+    cout << endl;
     replace(vec.begin(), vec.end(), 0, 5);
     for (size_t i = 0; i != vec.size(); i++) {
         cout << vec[i];
     }
+    cout << endl;
     vector<int> vec1;
     replace_copy(vec.begin(), vec.end(), back_inserter(vec1), 5, 2);
     for (size_t i = 0; i != vec1.size(); i++) {
         cout << vec1[i];
     }
+    cout << endl;
 }
 
 void sort(void) {
@@ -539,7 +559,7 @@ int main(/*int argc, char **argv*/) {
     // try_init();
     // try_PersonInfo();
     //
-    try_assign();
+    // try_assign();
     // try_swap();
     // try_compare();
     // try_adding();
@@ -555,7 +575,8 @@ int main(/*int argc, char **argv*/) {
     // str2num();
     // try_accm();
     // printString("a");
-    // replace();
+    // try_back_inserter();
+    replace();
     // sort();
     // len_sort();
     // lambda_exp();
