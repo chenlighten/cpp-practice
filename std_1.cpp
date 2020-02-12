@@ -102,7 +102,7 @@ void try_sstream(void) {
         people.push_back(info);
     }
     line = "interesting!";
-    cout << line;
+    cout << line << endl;
     ostringstream formatted(line);
     for(const auto &entry : people) {
         formatted << entry.name;
@@ -114,7 +114,7 @@ void try_sstream(void) {
     cout << formatted.str() << endl;
 }
 void try_file(void) {
-    ifstream fin("./lab/inc/stdio.h", ifstream::in);
+    ifstream fin("./std_1.cpp", ifstream::in);
     string s;
     cout << (int)fin.eof() << (int)fin.fail() << (int)fin.bad() << (int)fin.good() << endl;
     fin.clear();
@@ -334,7 +334,7 @@ void insert_and_loop(int argc, char **argv) {
     if (argc != 2) {
         cout << "wrong." << endl;
     }
-    if (string(argv[1]) == string("insert")) {
+    else if (string(argv[1]) == string("insert")) {
         loop_insert();
     }
     else if (string(argv[1]) == string("push")) {
@@ -398,6 +398,35 @@ void try_back_inserter(void) {
     for (auto it = v.cbegin(); it != v.cend(); ++it) {
         cout << *it;
     }
+    cout << endl;
+}
+
+void try_inserter(void) {
+    vector<int> v{0,1,2};
+    auto iit = inserter(v, v.begin());
+    // 插入后，back_inserter依然将元素插入在最开始的元素之前
+    *iit = -1;
+    *iit = -2;
+    for (auto it = v.cbegin(); it != v.cend(); ++it)
+        cout << *it << " ";
+    cout << endl;
+    // 错误，解引用bakc_inserter不得到元素值
+    // int i = (*iit);
+}
+
+void copy_back_inserter(void) {
+    vector<int> v0{0, 1, 2, 3};
+    vector<int> v1;
+    vector<int> v2;
+    // back_inserter也可以用在这里
+    copy(v0.cbegin(), v0.cend(), back_inserter(v1));
+    for (int i = 0; i < 4; ++i) {
+        fill_n(back_inserter(v2), 1, i);
+    }
+    cout << "v1: ";
+    for (auto it = v1.cbegin(); it != v1.cend(); ++it) {cout << *it;}
+    cout << endl << "v2: ";
+    for (auto it = v2.cbegin(); it != v2.cend(); ++it) {cout << *it;};
     cout << endl;
 }
 
@@ -468,7 +497,7 @@ bool is_shorter(const string &s1, const string &s2) {
 
 void unique_len(void) {
     vector<string> words;
-    ifstream fin("./lab/kern/pmap.c");
+    ifstream fin("./std_1.cpp");
     if (!fin) {
         return;
     }
@@ -554,18 +583,21 @@ void stream_it(void) {
     cout << accumulate(int_iter, eof, 0);
 }
 
-int main(/*int argc, char **argv*/) {
+int main(int argc, char **argv) {
     // try_speed(argc, argv);
     // try_init();
     // try_PersonInfo();
     //
     // try_assign();
     // try_swap();
+    // try_vector();
+    // try_sstream();
     // try_compare();
     // try_adding();
     // insert_and_loop(argc, argv);
     // try_ref();
     // try_insert();
+    // copy_back_inserter();
     // try_cap();
     // insert_and_loop(argc, argv);
     // try_string_construct();
@@ -576,7 +608,8 @@ int main(/*int argc, char **argv*/) {
     // try_accm();
     // printString("a");
     // try_back_inserter();
-    replace();
+    try_inserter();
+    // replace();
     // sort();
     // len_sort();
     // lambda_exp();
