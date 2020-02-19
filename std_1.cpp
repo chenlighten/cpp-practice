@@ -64,6 +64,7 @@ void try_array(void) {
 }
 
 void try_assign(void) {
+    // 下面的代码可以看到只能进行一次隐式转换
     vector<PersonInfo> v0 {string("Mike"), string("Jack"), string("Chen")};
     vector<PersonInfo> v1 {string("Cat"), string("Dog"), string("Mouce"), string("Fish")};
     vector<PersonInfo> v2 {PersonInfo("Cat"), PersonInfo("Fish")};
@@ -130,7 +131,7 @@ void try_file(void) {
     fin.close();
 }
 
-#define N 100000000
+#define N 10000000
 
 void try_vector_speed(void) {
     vector<int> v(10000, 0);
@@ -410,7 +411,7 @@ void try_inserter(void) {
     for (auto it = v.cbegin(); it != v.cend(); ++it)
         cout << *it << " ";
     cout << endl;
-    // 错误，解引用bakc_inserter不得到元素值
+    // 错误，解引用inserter不得到元素值
     // int i = (*iit);
 }
 
@@ -428,6 +429,17 @@ void copy_back_inserter(void) {
     cout << endl << "v2: ";
     for (auto it = v2.cbegin(); it != v2.cend(); ++it) {cout << *it;};
     cout << endl;
+}
+
+void try_steam_iterator(void) {
+    istream_iterator<int> it(cin);
+    istream_iterator<int> eof;
+    vector<int> v(it, eof);
+    for (auto i : v) cout << i << " ";
+    while(it != eof) {
+        cout << *it;
+        ++it;
+    }
 }
 
 void replace(void) {
@@ -593,11 +605,11 @@ int main(int argc, char **argv) {
     // try_vector();
     // try_sstream();
     // try_compare();
+    // try_file();
     // try_adding();
     // insert_and_loop(argc, argv);
     // try_ref();
     // try_insert();
-    // copy_back_inserter();
     // try_cap();
     // insert_and_loop(argc, argv);
     // try_string_construct();
@@ -608,7 +620,9 @@ int main(int argc, char **argv) {
     // try_accm();
     // printString("a");
     // try_back_inserter();
-    try_inserter();
+    // try_inserter();
+    // copy_back_inserter();
+    // try_steam_iterator();
     // replace();
     // sort();
     // len_sort();
